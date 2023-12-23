@@ -1,0 +1,23 @@
+  
+<h4>Add up to 10 Artworks</h4>
+<% if current_user.more_artworks_allowed? %>
+  <%= link_to "Add new artwork", new_artwork_path, class: "btn btn-secondary mt-2 mb-3" %>
+<% end %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Medium</th>
+      <th scope="col">Description</th>
+      <th scope="col">Visible to curators?</th>
+      <th scope="col">&nbsp;</th>
+      <th scope="col">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody id="artworks">
+    <% @artworks.each do |artwork| %>
+      <%= render artwork %>
+    <% end %>
+  </table>
+</div>

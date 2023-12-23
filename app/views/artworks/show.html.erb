@@ -1,0 +1,61 @@
+<div class="container">
+  <section class="image-grid">
+    <div class="row gy-4" data-controller="lightbox">
+      <% images = @artwork.images %>
+      <% images.each do |i| %>
+        <a href="<%= i.file.url %>">
+          <%= image_tag large_url(i) %>
+        </a>
+      <% end %>
+      <% if false %>
+        <% if images[0] %>
+          <%= render "image", i: images[0] %>
+        <% end %>
+        <% if images[1] %>
+          <%= render "image", i: images[1] %>
+        <% end %>
+        <% if images[2] %>
+          <%= render "image", i: images[2] %>
+        <% end %>
+        <div class="col-3">
+          <% if @artwork.more_images_allowed? %>
+            <h5 class="pink pb-2">Add up to 3 images or videos</h5>
+            <%= render "images/form", artwork: @artwork, image: @artwork.images.new %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+  <div class="row mt-2">
+    <div class="col-4">
+      <div><strong><%= @artwork.title %></strong> (<%= @artwork.year %>)<br>
+        <%= @artwork.medium %>
+      </div>
+      <% if @artwork.edition.present? %>
+        <div>
+          ed: <%= @artwork.edition %>
+        </div>
+      <% end %>
+      <%= render "dimensions" %>
+      <div>
+        Location: <%= @artwork.location %>
+      </div>
+      <div>
+        Price: <%= @artwork.price.present? ? number_to_currency(@artwork.price, unit: "", precision: 0) : "none" %>
+      </div>
+      <div class="pink">
+        <%= @artwork.visible ? "Not " : "" %> Visible to Curators
+      </div>
+      <% if @artwork.description.present? %>
+        <div class="mt-2">
+          <div class="fw-bold">Description</div>
+          <%= @artwork.description %>
+        </div>
+      <% end%>
+    </div>
+    <div class="col-4 mt-2">
+      <%= button_to "Edit this artwork", edit_artwork_path(@artwork), class: "btn btn-primary mb-4" %>
+      <%= button_to "Delete this artwork", @artwork, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: 'Are you sure?' } }, class: "btn btn-danger mt-4" %>
+    </div>
+  </div>
+</div>

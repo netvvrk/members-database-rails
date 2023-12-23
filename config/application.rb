@@ -26,7 +26,7 @@ module MembersDatabase
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w(assets tasks))
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -36,7 +36,28 @@ module MembersDatabase
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.generators do |generate|
+      generate.assets false
+      generate.helper false
+      generate.view_specs false
+    end
+
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.action_mailer.default_url_options = {host: "localhost", port: 3000}
+    config.active_storage.service = :imagekitio
+
+    # use sendgrid
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address: "smtp.sendgrid.net",
+      port: 587,
+      domain: ENV.fetch("DOMAIN"),
+      user_name: "apikey",
+      password: ENV.fetch("SENDGRID_KEY"),
+      aauthentication: "plain",
+      enable_starttls: true
+    }
   end
 end

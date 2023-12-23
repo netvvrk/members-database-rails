@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "artwork_#{artwork.id}" do %>
+  <div id="<%= dom_id artwork %>">
+    <tr>
+      <td><%= artwork.id %></td>
+      <td><%= link_to artwork.title, artwork %></td>
+      <td><%= artwork.medium %></td>
+      <td><%= artwork.description %></td>
+      <td><%= artwork.visible ? "yes" : "no" %></td>
+      <td>
+        <% artwork.images.each do |image| %>
+          <%= image_tag thumbnail_url(image)  %>
+        <% end %>
+      </td>
+      <td>
+        <%= button_to "Delete", artwork, method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "btn btn-sm btn-danger" %>
+      </td>
+    </tr>
+  </div>
+<% end %>
